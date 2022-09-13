@@ -9,13 +9,15 @@ const nodemailer=require('nodemailer');
 const { join } = require('path');
 const easyinvoice=require('easyinvoice');
 const fs=require('fs');
+const dotenv = require('dotenv').config();
+const invoice = require('./invoice');
 
 //creating mail transporter
 const transporter=nodemailer.createTransport({
     service:'gmail',
     auth:{
-        user:'190601004@rdu.edu.tr',
-        pass:'Kennedy123*',
+        user: process.env.ADDRESS,
+        password:process.env.E_PASSWORD,
     }
 });
 
@@ -32,7 +34,7 @@ app.get('/register',(req,res)=>{
     res.sendFile(path.join(__dirname,'public', 'register.html'));
 });
 
-//invoice page
+/*invoice page
 app.get('/invoice',(req,res)=>{
     res.sendFile(path.join(__dirname,'public','invoice.html'));
 })
@@ -98,12 +100,12 @@ var data = {
     },
     
     "customize": {
-        "template": fs.readFileSync('template.html', 'base64') 
+        //"template": fs.readFileSync('template.html', 'base64') //mkkln
     },
 };
 
-const readfile = easyinvoice.createInvoice(data, function (result) {
-    fs.writeFileSync("invoice.pdf", result.pdf, 'base64');
+easyinvoice.createInvoice(data, function (result) {
+    const readfile = fs.writeFileSync("invoice.pdf", result.pdf, 'base64');
 });
 
     let sql=(`INSERT INTO invoice (name,surname,email,company,quantity,amount) VALUES ("${name}","${surname}","${email}","${company}","${data.products.quantity}","${data.products.price}")`);
@@ -112,11 +114,11 @@ const readfile = easyinvoice.createInvoice(data, function (result) {
             throw err;
         } else {
             console.log("Data inserted in invoice database..!");
-            res.sendFile(readfile);
         }
     });
+    res.sendFile(path.join(__filename,'readfile.text'));
 })
-
+*/
 //registeration - inserting data into our database
 app.post('/register',(req,res)=>{
     var firstname = req.body.firstname;
@@ -171,7 +173,7 @@ app.post('/login',(req,res)=>{
 });
 
 //creating listening port
-app.listen(3300,(err)=>{
+app.listen(process.env.PORT,(err)=>{
     if (err) {
         throw err;
     } else {

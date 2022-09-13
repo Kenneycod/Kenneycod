@@ -1,9 +1,11 @@
 var mysql=require('mysql');
+const dotenv =require('dotenv');
+dotenv.config();
 
 const db=mysql.createConnection({
     host:'localhost',
-    user:'kennedy',
-    password:'Kendb123*',
+    user:process.env.USER,
+    password:process.env.PASSWORD,
     database:'mydb',
 });
 
@@ -31,6 +33,15 @@ db.connect((err)=>{
                 console.log('Table created!');
             }
         });*/
+
+       /* let sql=`TRUNCATE TABLE clients`;
+        db.query(sql,(err,result)=>{
+            if (err) {
+                throw err;
+            } else {
+                console.log('table is empty');
+            }
+        })*/
     }
 });
 
