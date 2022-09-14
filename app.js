@@ -10,7 +10,7 @@ const { join } = require('path');
 const easyinvoice=require('easyinvoice');
 const fs=require('fs');
 const dotenv = require('dotenv').config();
-const invoice = require('./invoice');
+const invoiceRoute = require('./invoice');
 
 //creating mail transporter
 const transporter=nodemailer.createTransport({
@@ -21,6 +21,7 @@ const transporter=nodemailer.createTransport({
     }
 });
 
+app.use(invoiceRoute);
 app.use(bodyparser.urlencoded({extended:false}));
 app.use('/public',express.static(path.join(__dirname,'public')));
 app.use(express.urlencoded({extended:false}));

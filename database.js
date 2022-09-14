@@ -34,14 +34,14 @@ db.connect((err)=>{
             }
         });*/
 
-       /* let sql=`TRUNCATE TABLE clients`;
+        /*let sql=`TRUNCATE TABLE invoice`;
         db.query(sql,(err,result)=>{
             if (err) {
                 throw err;
             } else {
                 console.log('table is empty');
             }
-        })*/
+        });*/
     }
 });
 

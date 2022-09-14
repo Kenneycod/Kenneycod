@@ -12,26 +12,17 @@ app.get('/invoice',(req,res)=>{
 })
 
 app.post('/invoice',(req,res)=>{
-    var name=req.body.name;
+    var fname=req.body.fname;
     var surname=req.body.surname;
     var email=req.body.email;
     var company=req.body.company;
     var quantity=req.body.quantity;
     var amount=req.body.amount;
 
-    let sql=(`INSERT INTO invoice (name,surname,email,company,quantity,amount) VALUES ("${name}","${surname}","${email}","${company}","${data.products.quantity}","${data.products.price}")`);
-    db.query(sql,(err,result)=>{
-        if (err) {
-            throw err;
-        } else {
-            console.log("Data inserted in invoice database..!");
-        }
-    });
-
     var data = {
 
         "client": {
-            "company": company,
+            "company": `${surname + fname}`,
             "address": email,
             "zip": "4567 CD",
             "city": "Clientcity",
@@ -64,13 +55,13 @@ app.post('/invoice',(req,res)=>{
                 "quantity": "2",
                 "description": "Test1",
                 "tax-rate": 6,
-                "price": 33.87
+                "price": amount-10
             },
             {
                 "quantity": "4",
                 "description": "Test2",
                 "tax-rate": 21,
-                "price": 10.45
+                "price": amount
             }
         ],
     
@@ -89,8 +80,17 @@ app.post('/invoice',(req,res)=>{
         const readfile = fs.writeFileSync("invoice.pdf", result.pdf, 'base64');
         console.log(result.pdf);
     });
+
+    let sql=(`INSERT INTO invoice (name,surname,email,company,quantity,amount) VALUES ("${fname}","${surname}","${email}","${company}","${quantity}","${price}")`);
+    db.query(sql,(err,result)=>{
+        if (err) {
+            throw err;
+        } else {
+            console.log("Data inserted in invoice database..!");
+        }
+    });
 });
 
 
 
-module.exports=invoice;
+module.exports=app;
