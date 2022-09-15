@@ -4,37 +4,43 @@ const express = require('express');
 const app=express();
 const mysql = require('mysql');
 const path=require('path');
+const {join} = require('path');
 const db=require('./database');
+const bodyparser=require('body-parser');
+const bodyParser = require('body-parser');
 
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/invoice',(req,res)=>{
     res.sendFile(path.join(__dirname,'public','invoice.html'));
 })
 
 app.post('/invoice',(req,res)=>{
-    var fname=req.body.fname;
+    console.log(req.body);
+    var name=req.body.name;
     var surname=req.body.surname;
     var email=req.body.email;
     var company=req.body.company;
     var quantity=req.body.quantity;
     var amount=req.body.amount;
+    var country=req.body.country;
 
     var data = {
 
         "client": {
-            "company": `${surname + fname}`,
+            "company": company,
             "address": email,
             "zip": "4567 CD",
             "city": "Clientcity",
-            "country": "company",
+            "country": country,
         },
     
         "sender": {
             "company": surname,
             "address": "Sample Street 123",
             "zip": "1234 AB",
-            "city": "Sampletown",
-            "country": "Samplecountry"
+            "city": "Istanbul",
+            "country": "Turkey"
         },
     
         "images": {
@@ -52,23 +58,23 @@ app.post('/invoice',(req,res)=>{
     
         "products": [
             {
-                "quantity": "2",
+                "quantity": quantity,
                 "description": "Test1",
                 "tax-rate": 6,
-                "price": amount-10
+                "price": amount
             },
             {
-                "quantity": "4",
+                "quantity": quantity,
                 "description": "Test2",
                 "tax-rate": 21,
                 "price": amount
             }
         ],
     
-        "bottomNotice": "Kindly pay your invoice within 15 days.",
+        "bottomNotice": "Kindly pay your invoice before month end.",
     
         "settings": {
-            "currency": "USD", 
+            "currency": "TRY", 
         },
         
         "customize": {
@@ -78,16 +84,15 @@ app.post('/invoice',(req,res)=>{
     
     easyinvoice.createInvoice(data, function (result) {
         const readfile = fs.writeFileSync("invoice.pdf", result.pdf, 'base64');
-        console.log(result.pdf);
-    });
-
-    let sql=(`INSERT INTO invoice (name,surname,email,company,quantity,amount) VALUES ("${fname}","${surname}","${email}","${company}","${quantity}","${price}")`);
+        let sql=(`INSERT INTO invoice (name,surname,email,company,quantity,amount) VALUES ("${name}","${surname}","${email}","${company}","${quantity}","${amount}")`);
     db.query(sql,(err,result)=>{
         if (err) {
             throw err;
         } else {
             console.log("Data inserted in invoice database..!");
+            res.sendFile(path.join(__dirname,'invoice.pdf'));
         }
+    });
     });
 });
 
