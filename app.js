@@ -5,12 +5,14 @@ const db=require('./database');
 const path=require('path');
 const bodyparser=require('body-parser');
 const app=express();
+const session = require('express-session');
 const nodemailer=require('nodemailer');
 const { join } = require('path');
 const easyinvoice=require('easyinvoice');
 const fs=require('fs');
 const dotenv = require('dotenv').config();
 const invoiceRoute = require('./invoice');
+const flash = require('connect-flash');
 
 //creating mail transporter
 const transporter=nodemailer.createTransport({
@@ -22,9 +24,16 @@ const transporter=nodemailer.createTransport({
 });
 
 app.use(invoiceRoute);
-app.use(bodyparser.urlencoded({extended:false}));
+app.use(bodyparser.json())
+app.use(bodyparser.urlencoded({extended:true}));
 app.use('/public',express.static(path.join(__dirname,'public')));
 app.use(express.urlencoded({extended:false}));
+app.use(session({
+    secret:process.env.SECRET_KEY,
+    resave:false,
+    saveUninitialized:true,
+}));
+app.use(flash());
 
 //display login page
 app.get('/login',(req,res)=>{
@@ -34,6 +43,11 @@ app.get('/login',(req,res)=>{
 app.get('/register',(req,res)=>{
     res.sendFile(path.join(__dirname,'public', 'register.html'));
 });
+
+/*app.get('/logout',(req,res)=>{
+    req.session.loggedout = true;
+    res.redirect('/login');
+});*/
 
 //registeration - inserting data into our database
 app.post('/register',(req,res)=>{
@@ -57,7 +71,7 @@ app.post('/register',(req,res)=>{
     //sending mail to user
 
     /*const mailOptions = {
-        from:'190601004@rdu.edu.tr',
+        from: process.env.ADDRESS,
         to:`${email}`,
         subject:'Kennedycode',
         Text:'Your account has been successfully created!',
@@ -77,13 +91,21 @@ app.post('/login',(req,res)=>{
     var email=req.body.email;
     var password = req.body.password;
 
-    const sql=(`SELECT * FROM clients WHERE Email = "${email}" AND Password = "${password}"`);
-    db.query(sql,(err,result)=>{
+    const sql=('SELECT * FROM clients WHERE Email = ? AND Password = ?');
+    db.query(sql,[email,password],(err,results,fields)=>{
         if (err) {
-            res.send('make sure your email and password is correct');
+            req.flash('make sure your email and password is correct');
             res.redirect('/login');
-        } else {
-            res.send('welcome Back');
+        }
+        if(results.length>0){
+            req.session.loggedin = true;
+            req.session.Email=email;
+            res.redirect('/invoice');
+            console.log(results);
+        }else{
+            req.flash('user not found!');
+            console.log(results);
+            res.redirect('/login');
         }
     });
 });

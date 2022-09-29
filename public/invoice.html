@@ -6,17 +6,17 @@
         <title>Data-page</title>
         <link rel="stylesheet" type="text/css" href="design.css">
         <style>
-            body{
-            background-color: radial-gradient(50% 123.47% at 50% 50%, #000000 0%, #FFFFFF 100%), 
-            radial-gradient(100% 100% at 50% 100%, #E9FFD8 0%, #001356 100%),
-            linear-gradient(238.72deg, #0066FF 0%, #00CD21 100%),
-            radial-gradient(100% 188.01% at 76.14% 0%, #00CAF7 0%, #FF00C7 100%), 
-            linear-gradient(0deg, #00C2FF 0%, #FFC700 100%), 
-            radial-gradient(59.2% 100% at 50% 0%, #8000FF 0%, #0085FF 100%), 
-            radial-gradient(100% 148.07% at 0% 0%, #FC8800 0%, #00FF94 100%);
-            background-blend-mode: overlay, multiply, hard-light, color-dodge, color-burn, color-burn, normal;
-        }
-                main{
+            *{
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            body {
+                /*background: radial-gradient(circle, rgba(34,193,195,1) 0%, rgba(253,187,45,1) 100%);*/
+                background: radial-gradient(50% 123.47% at 50% 50%, #000000 0%, #FFFFFF 100%), radial-gradient(100% 100% at 50% 100%, #E9FFD8 0%, #001356 100%), linear-gradient(238.72deg, #0066FF 0%, #00CD21 100%), radial-gradient(100% 188.01% at 76.14% 0%, #00CAF7 0%, #FF00C7 100%), linear-gradient(0deg, #00C2FF 0%, #FFC700 100%), radial-gradient(59.2% 100% at 50% 0%, #8000FF 0%, #0085FF 100%), radial-gradient(100% 148.07% at 0% 0%, #FC8800 0%, #00FF94 100%);
+                background-blend-mode: overlay, multiply, hard-light, color-dodge, color-burn, color-burn, normal;
+            }
+            main{
                 margin: 50px auto;
                 width: 40%;
                 border-radius: 5px;
@@ -24,83 +24,137 @@
                 background-color: #f2f2f2;
                 padding: 30px;
             }
-                        form {
-            border: 3px solid #f1f1f1;
+            @media screen and (max-width: 300px) {
+                input[type=text], input[type=password], input[type=email] {
+                width: 100%;
+                padding: 12px 20px;
+                margin: 8px 0;
+                display: inline-block;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+                box-sizing: border-box;
             }
-
-            /* Full-width inputs */
-            input[type=text], input[type=password], input[type=email] {
-            width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            box-sizing: border-box;
-            }
-
+            
             input[type=number]{
                 width: 30%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            margin-right: 25px;
-            display: inline-block;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            box-sizing: border-box;
+                padding: 12px 20px;
+                margin: 8px 0;
+                margin-right: 25px;
+                display: inline-block;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+                box-sizing: border-box;
             }
 
             /* Set a style for all buttons */
             button {
-            background-color: #04AA6D;
-            color: white;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            cursor: pointer;
-            width: 100%;
+                background-color: #04AA6D;
+                color: white;
+                padding: 14px 20px;
+                margin: 8px 0;
+                border: none;
+                cursor: pointer;
+                width: 100%;
+            }
+            }
+            form {
+                border: 3px solid #f1f1f1;
+            }
+            label{
+                color: #333333;
+                font-weight: 600;
+            }
+
+            /* Full-width inputs */
+            .input:focus{
+                outline: none;
+                border: 1px dashed #32a838;
+                background-color: #32a8381f;
+            }
+            input[type=text], input[type=password], input[type=email] {
+                width: 100%;
+                padding: 12px 20px;
+                margin: 8px 0;
+                display: inline-block;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+                box-sizing: border-box;
+            }
+            
+            input[type=number]{
+                width: 30%;
+                padding: 12px 20px;
+                margin: 8px 0;
+                margin-right: 25px;
+                display: inline-block;
+                border: 1px solid #ccc;
+                border-radius: 3px;
+                box-sizing: border-box;
+            }
+
+            /* Set a style for all buttons */
+            button {
+                background-color: #04AA6D;
+                color: white;
+                padding: 14px 20px;
+                margin: 8px 0;
+                border: none;
+                cursor: pointer;
+                width: 100%;
             }
 
             /* Add a hover effect for buttons */
             button:hover {
-            opacity: 0.8;
+                opacity: 0.8;
             }
-                    button[type=submit]{
-            width: 50%;
-            margin-left: 25%;
-            margin-right: 25%;
-            padding-top: 10px;
-            padding-bottom: 10px;
-            border-radius: 10px;
-            background-color: #32a838;
-            color: #f2f2f2;
-            font-family: 'Times New Roman', Times, serif;
-            font-weight: 200;
-            font-size: medium;
-        };
+
+            button[type=submit]{
+                width: 50%;
+                margin-left: 25%;
+                margin-right: 25%;
+                padding-top: 10px;
+                padding-bottom: 10px;
+                border-radius: 10px;
+                background-color: #32a838;
+                color: #f2f2f2;
+                font-family: 'Times New Roman', Times, serif;
+                font-weight: 200;
+                font-size: medium;
+        }
+        
+            #crtinv{
+                border-radius: 5px;
+                position:-webkit-sticky;
+                align-content: left;
+                width: 15%;
+                margin-left: 80%;
+                position: relative;
+            }
     </style>
     </head>
     <body class="body">
+        <aside>
+            <a href="/register"><button id="crtinv">Sign Up</button></a>
+        </aside>
         <main>
             <form action="/invoice" method="post">
                 <div id="container-contact">
                     <label>FirstName</label>
-                    <input type="text" id="name" placeholder="Name" name="name" required>
+                    <input type="text" class="input" id="name" placeholder="Name" name="name" required>
                     <label>LastName</label>
-                    <input type="text" id="surname" placeholder="Surname" name="surname" required>
+                    <input type="text" id="surname" class="input" placeholder="Surname" name="surname" required>
                     <label>Email</label>
-                    <input type="email" id="emaillb" name="email" placeholder="Email" required><br><br>
+                    <input type="email" id="emaillb" class="input" name="email" placeholder="Email" required><br><br>
                     <label>Country</label>
-                    <input type="text" name="country" required>
+                    <input type="text" class="input" name="country" required>
                     <label>Company</label>
-                    <input type="text" name="company" required>
+                    <input type="text" class="input" name="company" required>
                     <label>Quantity</label>
-                    <input type="number"  name="quantity">
+                    <input type="number" class="input" name="quantity">
                     <label>Amount</label>
-                    <input type="number" name="amount">
-
+                    <input type="number" class="input" name="amount"><br><br>
                     <div id="search-button">
-                        <button type="submit" id="reg-bnt">Register</button>
+                        <button type="submit" id="reg-bnt">Submit</button>
                     </div>
             </form>
         </main>

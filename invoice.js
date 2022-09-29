@@ -44,7 +44,7 @@ app.post('/invoice',(req,res)=>{
         },
     
         "images": {
-            logo: "https://public.easyinvoice.cloud/img/logo_en_original.png",
+            logo: "https://seeklogo.com/images/C/Comtech-logo-4399F53167-seeklogo.com.png?v=637769858510000000",
         },
     
         "information": {
